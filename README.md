@@ -1,5 +1,6 @@
 ## Burp Automation - standalone
 The program `autoburp.py` is a standalone Burp Automation tool.
+This tool is a modified version of https://github.com/0x4D31/burpa to work with StackStorm automation and Docker.
 
 Requirements
 * VMWare's Burp Rest API: `https://github.com/vmware/burp-rest-api`
