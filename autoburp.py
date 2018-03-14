@@ -1,5 +1,9 @@
 #!/usr/bin/env python
 
+# Acknowledgements
+#
+# This tool is a modified version of github.com/0x4D31/burpa to work with StackStorm automation and Docker.
+
 import argparse
 import os
 import sys

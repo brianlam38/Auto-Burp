@@ -1,5 +1,9 @@
 #!/usr/bin/env python
 
+# Acknowledgements
+#
+# This tool is a modified version of github.com/0x4D31/burpa to work with StackStorm automation and Docker.
+
 import argparse
 import os
 import sys
@@ -12,7 +16,7 @@ import requests
 from st2actions.runners.pythonrunner import Action
 
 # grab Burp container IP
-network_file = open("/opt/stackstorm/common/networks.txt", "r")
+network_file = open("/opt/stackstorm/common/networks.txt", "r")  # /common is a shared volume between Docker containers
 data = network_file.readlines()
 BURP_IP = ''
 for line in data:
@@ -72,7 +76,7 @@ class Burp_Scan(Action):
         # generate scan report
         scan_report(target_url)
 
-        # stop API service
+        # stop API service - commented out as this functionality is not working
         #burp_stop()
 
 # Add target_url to scop
@@ -210,20 +214,6 @@ def scan_report(target_url):
         print("[+] Scan report saved to {}".format(file_path))
 
 def burp_stop():
-    """Stop the Burp Suite"""
-    # Because of an issue in burp-rest-api
-    # (https://github.com/vmware/burp-rest-api/issues/15),
-    # we can't Reset/Restore the Burp State, so we need to stop
-    # the Burp after the scan to reset the state.
-    # e.g. You can use a supervisord configuration to restart the
-    # Burp when it stopped running:
-    #   [program:burp-rest-api]
-    #   command=java -jar /opt/burp-rest-api/build/libs/burp-rest-api-1.0.0.jar
-    #   directory=/opt/burp-rest-api/build/libs
-    #   redirect_stderr=true
-    #   stdout_logfile=/var/log/burp-rest-api.log
-    #   autorestart=true
-    #   user=burpa
     try:
         r = requests.get(
             "{}:{}/burp/stop".format(proxy_url, api_port)
